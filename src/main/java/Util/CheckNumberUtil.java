@@ -13,46 +13,44 @@ public class CheckNumberUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(CheckNumberUtil.class);
 
-    private static  final String PREFIX = "+" ;
+    private static final String PREFIX = "+";
 
-    private static  final PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+    private static final PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
 
-    public boolean isValid(String phone){
-        PhoneNumber phoneNumber  = format(phone);
-        if(phoneNumber == null)
+    public boolean isValid(String phone) {
+        PhoneNumber phoneNumber = format(phone);
+        if (phoneNumber == null)
             return false;
         return phoneUtil.isValidNumber(phoneNumber);
     }
 
-
-    public int getCountryCode(String phone){
-        PhoneNumber phoneNumber  = format(phone);
-        if(phoneNumber == null)
+    public int getCountryCode(String phone) {
+        PhoneNumber phoneNumber = format(phone);
+        if (phoneNumber == null)
             return -1;
-        int countryCode  = phoneUtil.getCountryCodeForRegion(phoneUtil.getRegionCodeForNumber(phoneNumber));
+        int countryCode = phoneUtil.getCountryCodeForRegion(phoneUtil.getRegionCodeForNumber(phoneNumber));
         return countryCode;
     }
 
-    public String formatPhoneNumber(String phone){
+    public String formatPhoneNumber(String phone) {
         PhoneNumber phoneNumber = format(phone);
-        if(phoneNumber == null)
+        if (phoneNumber == null)
             return "";
         return phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
     }
 
-    private PhoneNumber format(String phone){
-        if(!phone.startsWith(PREFIX)){
+    private PhoneNumber format(String phone) {
+        if (!phone.startsWith(PREFIX)) {
             phone = PREFIX + phone;
         }
         try {
-            PhoneNumber  phoneNumber = phoneUtil.parse(phone,"");
+            PhoneNumber phoneNumber = phoneUtil.parse(phone, "");
             return phoneNumber;
         }
         catch (NumberParseException e) {
-            logger.warn("Cannot parse phone number: {}  \n ",phone, e);
-            return  null;
+            logger.warn("Cannot parse phone number: {}  \n ", phone, e);
+            return null;
         }
     }
-
 
 }
